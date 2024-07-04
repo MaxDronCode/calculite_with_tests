@@ -13,7 +13,7 @@ setDefaultTimeout(60000)
 BeforeAll(async () => { // lo primero de todos lanzas el navegador
   global.browser = await chromium.launch({
     headless: true, // que no se vea por pantalla
-    slowMo: 1 // milisegundos entre accion y accion
+    slowMo: 5 // milisegundos entre accion y accion
   })
 })
 

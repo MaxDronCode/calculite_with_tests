@@ -81,7 +81,7 @@ function calculateResult (firstOperand, secondOperand) {
     case '*':
       return firstOperand * secondOperand
     case '/':
-      return secondOperand === '0' ? 'error' : firstOperand / secondOperand
+      return secondOperand === '0' ? 'ERROR' : firstOperand / secondOperand
     default:
       return 'error'
   }
@@ -105,7 +105,7 @@ function updateCalculatorStatus () {
 }
 
 function updateDisplay (value) {
-  document.getElementById('calculatorDisplay').value = String(value).replace('.', ',')
+  document.getElementById('calculatorDisplay').innerText = String(value).replace('.', ',')
 }
 
 function handleCalculatorState () {
