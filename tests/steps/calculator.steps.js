@@ -42,7 +42,7 @@ Then('the display should show the following value: {string}', async (string) => 
 })
 
 Given('the display shows the following value: {string}', async (string) => {
-  await buttonClick('C')
+  await buttonClick('AC')
   await writeNumber(string)
 })
 

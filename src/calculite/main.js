@@ -72,7 +72,6 @@ function toggleNegative () {
 }
 
 function calculateResult (firstOperand, secondOperand) {
-  console.log(firstOperand, secondOperand, operator)
   switch (operator) {
     case '+':
       return firstOperand + secondOperand
@@ -81,14 +80,19 @@ function calculateResult (firstOperand, secondOperand) {
     case '*':
       return firstOperand * secondOperand
     case '/':
-      return secondOperand === '0' ? 'ERROR' : firstOperand / secondOperand
+      return secondOperand === '0' ? 'error' : firstOperand / secondOperand
     default:
       return 'error'
   }
 }
-
 function formatResult (result) {
-  return String(result).length > MAX_DISPLAY_DIGIT_LENGTH ? result.toExponential(2) : result
+  if (result !== 'ERROR') {
+    result = Number(result).toFixed(7)
+    result = Number(result)
+    return String(result).length > MAX_DISPLAY_DIGIT_LENGTH ? result.toExponential(2) : result
+  } else {
+    return 'ERROR'
+  }
 }
 
 function resetCurrentOperandAfterOperator () {

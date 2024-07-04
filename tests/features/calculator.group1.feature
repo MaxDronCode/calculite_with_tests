@@ -117,15 +117,26 @@ Feature: Calculator
 
         Examples:
             | displayNumber | button | userNumber | displayResult |
-            | 999999999     | +      | 1          | 1,00e+10      |
-            | -1            | -      | 999999999  | -1,00e+10     |
-            | 999999999     | *      | 2          | 2,00e+10      |
-            | 999999999     | /      | 0,1        | 1,00e+11      |
+            | 999999999     | +      | 1          | 1,00e+9       |
+            | -1            | -      | 999999999  | -1,00e+9      |
+            | 999999999     | *      | 2          | 2,00e+9       |
+            | 999999999     | /      | 0,1        | 1,00e+10      |
 
+    # Scenario Outline: Clicking the C button
+    #     Given the display shows the following value: "<displayNumber>"
+    #     When the user presses the "C" button
+    #     Then the display should show the following value: "<displayResult>"
 
-    Scenario: Clicking the C button
+    #         | displayNumber | displayResult |
+    #         | 132           | 13            |
+    #         | -17,2         | -17,          |
+    #         | 3,            | 3             |
+    #         | 1             | 0             |
+    #         | 0             | 0             |
+
+    Scenario: Clicking the AC button
         Given the display shows the following value: "123"
-        When the user presses the "C" button
+        When the user presses the "AC" button
         Then the display should show the following value: "0"
 
     Scenario Outline: Clicking two different operation buttons
@@ -142,21 +153,6 @@ Feature: Calculator
             | 1234          | -      | +       | 31         | 1265          |
             | 9,26          | *      | *       | 2,15       | 19,909        |
 
-    # Scenario Outline: Doing a new operation
-    #     Given the display shows the following value: "<displayNumber>"
-    #     And the user presses the "<button>" button
-    #     And the user writes the number: "<userNumber>"
-    #     And the user presses the "=" button
-    #     When the user writes the number: "<secondUserNumber>"
-    #     Then the display should show the following value: "<secondUserNumber>"
-
-    #     Examples:
-    #         | displayNumber | button | userNumber | displayResult | secondUserNumber |
-    #         | 12,2          | +      | 6          | 18,2          | 13               |
-    #         | 123456789     | +      | 1          | 123456790     | -24              |
-
-        # En las especificaciones pone una cosa y en los tests otra. Preguntar al Toni cual de los dos se modifica.
-
     Scenario Outline: Division with 0
         Given the display shows the following value: "<displayNumber>"
         And the user presses the "/" button
@@ -169,7 +165,6 @@ Feature: Calculator
             | 1             |
             | -1            |
             | 0             |
-
 
     Scenario Outline: Doing an operation without a second number
         Given the display shows the following value: "<displayNumber>"
@@ -185,7 +180,7 @@ Feature: Calculator
             | 65            | /      | 1             |
 
     Scenario: Doing an operation without a first number
-        Given the user presses the "+-" button
+        Given the user presses the "-" button
         And the user writes the number: "23"
         When the user presses the "=" button
         Then the display should show the following value: "-23"
@@ -263,30 +258,30 @@ Feature: Calculator
 
         Examples:
             | button |
-            | C     |
+            | AC     |
 
-    Scenario Outline: Reenabling buttons with no error
-        Given the display shows the following value: "123456789"
-        When the user presses the "<button>" button
-        Then the "0" button should be enabled
-        And the "+-" button should be enabled
-        And the "1" button should be enabled
-        And the "2" button should be enabled
-        And the "3" button should be enabled
-        And the "4" button should be enabled
-        And the "5" button should be enabled
-        And the "6" button should be enabled
-        And the "7" button should be enabled
-        And the "8" button should be enabled
-        And the "9" button should be enabled
-        And the "," button should be disabled
-        And the "+" button should be enabled
-        And the "-" button should be enabled
-        And the "*" button should be enabled
-        And the "/" button should be enabled
+    # Scenario Outline: Reenabling buttons with no error
+    #     Given the display shows the following value: "123456789"
+    #     When the user presses the "<button>" button
+    #     Then the "0" button should be enabled
+    #     And the "+-" button should be enabled
+    #     And the "1" button should be enabled
+    #     And the "2" button should be enabled
+    #     And the "3" button should be enabled
+    #     And the "4" button should be enabled
+    #     And the "5" button should be enabled
+    #     And the "6" button should be enabled
+    #     And the "7" button should be enabled
+    #     And the "8" button should be enabled
+    #     And the "9" button should be enabled
+    #     And the "," button should be disabled
+    #     And the "+" button should be enabled
+    #     And the "-" button should be enabled
+    #     And the "*" button should be enabled
+    #     And the "/" button should be enabled
 
-        Examples:
-            | C |
+    #     Examples:
+    #         | C |
 
     Scenario Outline: Disabling buttons
         Given the display shows the following value: "<displayNumber>"
@@ -331,14 +326,14 @@ Feature: Calculator
         And the "/" button should be disabled
         And the "+-" button should be disabled
         And the "=" button should be disabled
-        And the "C" button should be disabled
+        And the "AC" button should be enabled
 
     Scenario: Reenabling buttons with error
         Given the display shows the following value: "1"
         And the user presses the "/" button
         And the user writes the number: "0"
         And the user presses the "=" button
-        When the user presses the "C" button
+        When the user presses the "AC" button
         Then the "0" button should be enabled
         And the "1" button should be enabled
         And the "2" button should be enabled
@@ -356,4 +351,4 @@ Feature: Calculator
         And the "/" button should be enabled
         And the "+-" button should be enabled
         And the "=" button should be enabled
-        And the "C" button should be enabled
+        And the "AC" button should be enabled
