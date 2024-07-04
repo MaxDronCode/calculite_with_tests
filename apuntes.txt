@@ -1,0 +1,60 @@
+Libreria estandar para tirar tests en js:
+JEST
+Pero aquí utilizaremos Cucumber (probablemente utilice Jest por debajo)
+Esto va a crear tests a partir de nuestros archivos
+
+Ejecutamos en consola:
+yarn add @cucumber/cucumber
+
+Se instala en dependencies en vez de devDependencies
+- Borramos manualmente la dependencia de dependencies y la pegamos en devDependencies
+- Ejecutamos en consola: 
+yarn
+
+Esto ultimo para que cargue y refresque el package.json
+
+Parametros que le pasamos al comando yarn cucumber-js:
+--require (Ficheros que vamos a requerir: tests/steps/*) vamos a usar .steps.js
+--parallel 1 : Si tienes una maquina con varios nucleos, puedes ejecutar los tests en varios nucleos en paralelo. A veces que se ejecute en varios hilos no es tan optimo
+yarn test .tests/features/calculator.feature
+
+En el package.json metemos:
+"scripts": {
+        "test": "cucumber-js"
+    }
+
+En el package.json tambien pueden ejecutar acciones contra los paquetes
+
+Metemos en el package.json la ruta del cucumber
+
+Ejecutamos el comando contra la ruta del .feature que queremos ejecutar:
+yarn test ./tests/features/calculator.feature
+Resultado:
+120 scenarios (120 undefined)
+733 steps (733 undefined)
+
+Ahora toca hacer el link con los steps
+Introducimos PlayWrigth
+PlayWrigth emula ser un navegador, puedes escoger cual quieres que sea
+
+Ejecutamos en consola:
+yarn add -D @playwright/test
+
+Se instala en devDependencies
+
+Ahora metemos en el proyecto el archivo .steps
+
+Tambien añadimos el navegador como tal. Lo de antes es lo que te pasa los tests:
+yarn add -D playwright
+
+Luego:
+yarn playwright install
+yarn install
+yarn
+yarn cerate playwright
+yarn test...
+
+instalamos librerias para formatear la respuesta del cucumber por consola
+
+Ahora:
+coger el feature file del otro grupo y pasar los tests a tu calculadora

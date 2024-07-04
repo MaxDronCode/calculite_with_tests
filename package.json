@@ -1,0 +1,15 @@
+{
+    "packageManager": "yarn@4.3.1",
+    "devDependencies": {
+        "@cucumber/cucumber": "^10.8.0",
+        "@cucumber/messages": "^25.0.1",
+        "@cucumber/pretty-formatter": "^1.0.1",
+        "@playwright/test": "^1.45.1",
+        "@types/node": "^20.14.9",
+        "playwright": "^1.45.1",
+        "standard": "^17.1.0"
+    },
+    "scripts": {
+        "test": "cucumber-js --require cucumber.conf.js --require tests/steps/**/*.steps.js --format @cucumber/pretty-formatter --format html:tests/reports/cucumber-report.html --tags \"not @Manual\" --parallel 1"
+    }
+}
