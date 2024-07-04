@@ -34,7 +34,6 @@ function addZeroToCurrentOperand () {
   if (currentOperand.includes('.') || currentOperand !== '') {
     currentOperand += '0'
   }
-  console.log('Curent Operand: ', currentOperand)
   updateCalculatorStatus()
 }
 
@@ -72,7 +71,6 @@ function toggleNegative () {
 }
 
 function calculateResult (firstOperand, secondOperand) {
-  console.log(firstOperand, secondOperand, operator)
   switch (operator) {
     case '+':
       return firstOperand + secondOperand
@@ -81,14 +79,21 @@ function calculateResult (firstOperand, secondOperand) {
     case '*':
       return firstOperand * secondOperand
     case '/':
-      return secondOperand === '0' ? 'error' : firstOperand / secondOperand
+      return secondOperand === 0 ? 'ERROR' : firstOperand / secondOperand
     default:
-      return 'error'
+      return 'ERROR'
   }
 }
 
 function formatResult (result) {
-  return String(result).length > MAX_DISPLAY_DIGIT_LENGTH ? result.toExponential(2) : result
+  let formattedResult
+  if (result == 'ERROR') {
+    return result
+  }
+  if (String(result).length > MAX_DISPLAY_DIGIT_LENGTH) {
+    return result.toExponential(2)
+  }
+  return result
 }
 
 function resetCurrentOperandAfterOperator () {
@@ -100,25 +105,32 @@ function resetCurrentOperandAfterOperator () {
 
 function updateCalculatorStatus () {
   updateDisplay(currentOperand === '' ? '0' : currentOperand)
-  const [shouldDisableNumeric, shouldDisableToggle] = handleCalculatorState()
-  toggleButtonsState(shouldDisableNumeric, shouldDisableToggle)
+  const [shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma] = handleCalculatorState()
+  toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
 }
 
 function updateDisplay (value) {
-  document.getElementById('calculatorDisplay').value = String(value).replace('.', ',')
+  document.getElementById('calculatorDisplay').innerText = String(value).replace('.', ',')
+  console.log(value)
 }
 
 function handleCalculatorState () {
   const isOperandMaxLength = currentOperand.length >= MAX_DISPLAY_DIGIT_LENGTH
+  const resultIsInfinity = currentOperand === Infinity
   const hasResult = calculatorStatus.hasResult
+  const shouldDisableComma = calculatorStatus.pendingResetCurrentOperand || isOperandMaxLength || hasResult
   const shouldDisableNumeric = (isOperandMaxLength || hasResult) && !calculatorStatus.pendingResetCurrentOperand
   const shouldDisableToggle = hasResult || (isOperandMaxLength && Number(currentOperand) > 0)
-  return [shouldDisableNumeric, shouldDisableToggle]
+  const shouldDisableOperators = resultIsInfinity
+  const shouldDisableEqual = resultIsInfinity
+  return [shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma]
 }
 
-function toggleButtonsState (disableNumeric, disableToggle) {
+function toggleButtonsState (disableNumeric, disableToggle, disableOperators, disableEqual, disableComma) {
   toggleButtonGroupState(domNumberButtons, disableNumeric)
-  toggleButtonState(domDecimalButton, disableNumeric)
-  toggleButtonState(domZeroButton, disableNumeric)
+  toggleButtonGroupState(domOperatorsButtons, disableOperators)
+  toggleButtonState(domEqualButton, disableEqual)
+  // toggleButtonState(domDecimalButton, disableNumeric)
+  toggleButtonState(domDecimalButton, disableComma)
   toggleButtonState(domNegativeButton, disableToggle)
 }

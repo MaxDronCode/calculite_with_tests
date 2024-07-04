@@ -19,8 +19,8 @@ function gatherDomButtons () {
   domEqualButton = document.getElementById('equal')
   domResetButton = document.getElementById('reset')
   domNegativeButton = document.getElementById('toggleNegative')
-  domZeroButton = document.querySelector('button[value="0"]')
-  domDecimalButton = document.querySelector('button[value="."]')
+  domZeroButton = document.getElementById('0')
+  domDecimalButton = document.getElementById('.')
 }
 
 // The click events should generate a state instead of executing functions

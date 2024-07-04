@@ -12,7 +12,7 @@
     <body>
         <div class="general">
             <div class="input">
-                <input
+                <p
                     type="text"
                     id="calculatorDisplay"
                     value="0"
@@ -32,19 +32,14 @@
                         <button value="7" data-testid="7">7</button>
                         <button value="8" data-testid="8">8</button>
                         <button value="9" data-testid="9">9</button>
-                    </div>
-                    <div class="zero_decimal">
-                        <button
-                            value="0"
-                            class="rectangular azul"
-                            data-testid="0"
-                        >
+                        <button id="0" data-testid="0" class="rectangular azul">
                             0
                         </button>
-                        <button value="." class="coma" data-testid=",">
+                        <button id="." value="." class="coma" data-testid=",">
                             ,
                         </button>
                     </div>
+                    <div class="zero_decimal"></div>
                 </div>
                 <div class="red">
                     <div class="operators">

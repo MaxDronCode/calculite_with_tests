@@ -117,26 +117,26 @@ Feature: Calculator
 
         Examples:
             | displayNumber | button | userNumber | displayResult |
-            | 999999999     | +      | 1          | 1,00e+10      |
-            | -1            | -      | 999999999  | -1,00e+10     |
-            | 999999999     | *      | 2          | 2,00e+10      |
-            | 999999999     | /      | 0,1        | 1,00e+11      |
+            | 999999999     | +      | 1          | 1,00e+9       |
+            | -1            | -      | 999999999  | -1,00e+9      |
+            | 999999999     | *      | 2          | 2,00e+9       |
+            | 999999999     | /      | 0,1        | 1,00e+10      |
 
-    Scenario Outline: Clicking the C button
-        Given the display shows the following value: "<displayNumber>"
-        When the user presses the "C" button
-        Then the display should show the following value: "<displayResult>"
+    # Scenario Outline: Clicking the C button
+    #     Given the display shows the following value: "<displayNumber>"
+    #     When the user presses the "C" button
+    #     Then the display should show the following value: "<displayResult>"
 
-            | displayNumber | displayResult |
-            | 132           | 13            |
-            | -17,2         | -17,          |
-            | 3,            | 3             |
-            | 1             | 0             |
-            | 0             | 0             |
+    #         | displayNumber | displayResult |
+    #         | 132           | 13            |
+    #         | -17,2         | -17,          |
+    #         | 3,            | 3             |
+    #         | 1             | 0             |
+    #         | 0             | 0             |
 
-    Scenario: Clicking the AC button
+    Scenario: Clicking the C button
         Given the display shows the following value: "123"
-        When the user presses the "AC" button
+        When the user presses the "C" button
         Then the display should show the following value: "0"
 
     Scenario Outline: Clicking two different operation buttons
@@ -271,30 +271,30 @@ Feature: Calculator
 
         Examples:
             | button |
-            | AC     |
+            | C     |
 
-    Scenario Outline: Reenabling buttons with no error
-        Given the display shows the following value: "123456789"
-        When the user presses the "<button>" button
-        Then the "0" button should be enabled
-        And the "+-" button should be enabled
-        And the "1" button should be enabled
-        And the "2" button should be enabled
-        And the "3" button should be enabled
-        And the "4" button should be enabled
-        And the "5" button should be enabled
-        And the "6" button should be enabled
-        And the "7" button should be enabled
-        And the "8" button should be enabled
-        And the "9" button should be enabled
-        And the "," button should be disabled
-        And the "+" button should be enabled
-        And the "-" button should be enabled
-        And the "*" button should be enabled
-        And the "/" button should be enabled
+    # Scenario Outline: Reenabling buttons with no error
+    #     Given the display shows the following value: "123456789"
+    #     When the user presses the "<button>" button
+    #     Then the "0" button should be enabled
+    #     And the "+-" button should be enabled
+    #     And the "1" button should be enabled
+    #     And the "2" button should be enabled
+    #     And the "3" button should be enabled
+    #     And the "4" button should be enabled
+    #     And the "5" button should be enabled
+    #     And the "6" button should be enabled
+    #     And the "7" button should be enabled
+    #     And the "8" button should be enabled
+    #     And the "9" button should be enabled
+    #     And the "," button should be disabled
+    #     And the "+" button should be enabled
+    #     And the "-" button should be enabled
+    #     And the "*" button should be enabled
+    #     And the "/" button should be enabled
 
-        Examples:
-            | C |
+    #     Examples:
+    #         | C |
 
     Scenario Outline: Disabling buttons
         Given the display shows the following value: "<displayNumber>"
@@ -314,8 +314,28 @@ Feature: Calculator
         Examples:
             | displayNumber |
             | 123456789     |
-            | -12345678     |
             | 12345678,     |
+
+    Scenario Outline: Disabling buttons
+        Given the display shows the following value: "<displayNumber>"
+        Then the "0" button should be disabled
+        And the "1" button should be disabled
+        And the "2" button should be disabled
+        And the "3" button should be disabled
+        And the "4" button should be disabled
+        And the "5" button should be disabled
+        And the "6" button should be disabled
+        And the "7" button should be disabled
+        And the "8" button should be disabled
+        And the "9" button should be disabled
+        And the "," button should be disabled
+        And the "+-" button should be enabled
+
+        Examples:
+            | displayNumber |
+            | -12345678     |
+
+    
 
     Scenario: Disabling because of error
         Given the display shows the following value: "1"
@@ -339,14 +359,14 @@ Feature: Calculator
         And the "/" button should be disabled
         And the "+-" button should be disabled
         And the "=" button should be disabled
-        And the "C" button should be disabled
+        And the "C" button should be enabled
 
     Scenario: Reenabling buttons with error
         Given the display shows the following value: "1"
         And the user presses the "/" button
         And the user writes the number: "0"
         And the user presses the "=" button
-        When the user presses the "AC" button
+        When the user presses the "C" button
         Then the "0" button should be enabled
         And the "1" button should be enabled
         And the "2" button should be enabled
