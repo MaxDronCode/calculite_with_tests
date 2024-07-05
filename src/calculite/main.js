@@ -120,8 +120,8 @@ function resetCurrentOperandAfterResult () {
 function updateCalculatorStatus () {
   updateDisplay(currentOperand === '' ? '0' : currentOperand)
   const [shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma] = handleCalculatorState()
-  if (calculatorStatus.hasResult) {
-    toggleButtonsState(false, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
+  if (calculatorStatus.hasResult && currentOperand == 'ERROR') {
+    toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
   } else {
     toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
   }
@@ -134,13 +134,16 @@ function updateDisplay (value) {
 
 function handleCalculatorState () {
   const isOperandMaxLength = currentOperand.length >= MAX_DISPLAY_DIGIT_LENGTH
-  const resultIsInfinity = currentOperand === Infinity
+  const resultIsError = currentOperand == 'ERROR'
+  if (resultIsError) {
+    return [true, true, true, true, true]
+  }
   const hasResult = calculatorStatus.hasResult
   const shouldDisableComma = calculatorStatus.pendingResetCurrentOperand || isOperandMaxLength || hasResult
-  const shouldDisableNumeric = (isOperandMaxLength || hasResult) && !calculatorStatus.pendingResetCurrentOperand
+  const shouldDisableNumeric = ((isOperandMaxLength) && !calculatorStatus.pendingResetCurrentOperand) || resultIsError
   const shouldDisableToggle = hasResult || (isOperandMaxLength && Number(currentOperand) > 0)
-  const shouldDisableOperators = resultIsInfinity
-  const shouldDisableEqual = resultIsInfinity
+  const shouldDisableOperators = resultIsError
+  const shouldDisableEqual = resultIsError
   return [shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma]
 }
 
