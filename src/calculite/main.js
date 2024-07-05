@@ -17,6 +17,7 @@ function initCalculator () {
 
 function addDigitToCurrentOperand (numberValue) {
   resetCurrentOperandAfterOperator()
+  resetCurrentOperandAfterResult()
   currentOperand += numberValue
   updateCalculatorStatus()
 }
@@ -109,10 +110,21 @@ function resetCurrentOperandAfterOperator () {
   }
 }
 
+function resetCurrentOperandAfterResult () {
+  if (calculatorStatus.hasResult) {
+    calculatorStatus.setHasResult(false)
+    currentOperand = ''
+  }
+}
+
 function updateCalculatorStatus () {
   updateDisplay(currentOperand === '' ? '0' : currentOperand)
   const [shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma] = handleCalculatorState()
-  toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
+  if (calculatorStatus.hasResult) {
+    toggleButtonsState(false, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
+  } else {
+    toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
+  }
 }
 
 function updateDisplay (value) {
@@ -132,11 +144,11 @@ function handleCalculatorState () {
   return [shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma]
 }
 
-function toggleButtonsState (disableNumeric, disableToggle, disableOperators, disableEqual, disableComma) {
+function toggleButtonsState (disableNumeric, disableNegative, disableOperators, disableEqual, disableComma) {
   toggleButtonGroupState(domNumberButtons, disableNumeric)
   toggleButtonGroupState(domOperatorsButtons, disableOperators)
   toggleButtonState(domEqualButton, disableEqual)
   // toggleButtonState(domDecimalButton, disableNumeric)
   toggleButtonState(domDecimalButton, disableComma)
-  toggleButtonState(domNegativeButton, disableToggle)
+  toggleButtonState(domNegativeButton, disableNegative)
 }
