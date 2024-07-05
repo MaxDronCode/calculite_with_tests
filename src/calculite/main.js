@@ -105,25 +105,39 @@ function formatResult (result) {
 
 function resetCurrentOperandAfterOperator () {
   if (calculatorStatus.pendingResetCurrentOperand) {
-    calculatorStatus.setPendingResetCurrentOperand(false)
     currentOperand = ''
+    calculatorStatus.setPendingResetCurrentOperand(false)
   }
 }
 
 function resetCurrentOperandAfterResult () {
   if (calculatorStatus.hasResult) {
-    calculatorStatus.setHasResult(false)
     currentOperand = ''
+    calculatorStatus.setHasResult(false)
   }
 }
 
 function updateCalculatorStatus () {
   updateDisplay(currentOperand === '' ? '0' : currentOperand)
-  const [shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma] = handleCalculatorState()
+
+  const [shouldDisableNumeric,
+    shouldDisableToggle,
+    shouldDisableOperators,
+    shouldDisableEqual,
+    shouldDisableComma] = handleCalculatorState()
+
   if (calculatorStatus.hasResult && currentOperand == 'ERROR') {
-    toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
+    toggleButtonsState(shouldDisableNumeric,
+      shouldDisableToggle,
+      shouldDisableOperators,
+      shouldDisableEqual,
+      shouldDisableComma)
   } else {
-    toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableOperators, shouldDisableEqual, shouldDisableComma)
+    toggleButtonsState(shouldDisableNumeric,
+      shouldDisableToggle,
+      shouldDisableOperators,
+      shouldDisableEqual,
+      shouldDisableComma)
   }
 }
 
