@@ -153,7 +153,7 @@ function handleCalculatorState () {
     return [true, true, true, true, true]
   }
   const hasResult = calculatorStatus.hasResult
-  const shouldDisableComma = calculatorStatus.pendingResetCurrentOperand || isOperandMaxLength || hasResult
+  const shouldDisableComma = (isOperandMaxLength && !operator) || hasResult
   const shouldDisableNumeric = ((isOperandMaxLength) && !calculatorStatus.pendingResetCurrentOperand) || resultIsError
   const shouldDisableToggle = hasResult || (isOperandMaxLength && Number(currentOperand) > 0)
   const shouldDisableOperators = resultIsError

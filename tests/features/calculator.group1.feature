@@ -228,7 +228,7 @@ Feature: Calculator
         When the user presses the "<button>" button
         Then the "0" button should be enabled
         And the "+-" button should be disabled
-        And the "," button should be disabled
+        And the "," button should be enabled
         And the "2" button should be enabled
         And the "3" button should be enabled
         And the "4" button should be enabled
