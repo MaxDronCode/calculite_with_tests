@@ -23,6 +23,7 @@ function addDigitToCurrentOperand (numberValue) {
 
 function setOperator (operatorValue) {
   operator = operatorValue
+  console.log('Operator: ', operator)
   firstOperand = Number(currentOperand)
   calculatorStatus.setPendingResetCurrentOperand(true)
   calculatorStatus.setHasResult(false)
@@ -50,8 +51,10 @@ function resolveOperation () {
     currentOperand = formatResult(result) // we assign result to currentOperand to display the number
     calculatorStatus.setHasResult(true)
     operator = ''
+  } else if (operator === '-' && !firstOperand) {
+    currentOperand = '-' + currentOperand
   } else {
-    resetCalculator()
+    currentOperand = String(Number(currentOperand))
   }
   updateCalculatorStatus()
 }
@@ -111,7 +114,7 @@ function updateCalculatorStatus () {
 
 function updateDisplay (value) {
   document.getElementById('calculatorDisplay').innerText = String(value).replace('.', ',')
-  console.log(value)
+  console.log('Display: ', value)
 }
 
 function handleCalculatorState () {

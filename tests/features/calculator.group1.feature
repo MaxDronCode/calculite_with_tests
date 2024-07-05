@@ -5,7 +5,8 @@ Feature: Calculator
 
     Scenario: Default display screen
         Then the display should show the following value: "0"
-
+    
+    @current
     Scenario Outline: Pressing non-operators screen buttons
         Given the display shows the following value: "<displayNumber>"
         When the user presses the "<button>" button
@@ -221,13 +222,13 @@ Feature: Calculator
             | 10            | 10            |
             | -10,          | -10           |
 
-    @current
+    
     Scenario Outline: Reenabling buttons with no error
         Given the display shows the following value: "123456789"
         When the user presses the "<button>" button
         Then the "0" button should be enabled
-        And the "+-" button should be enabled
-        And the "1" button should be enabled
+        And the "+-" button should be disabled
+        And the "," button should be enabled
         And the "2" button should be enabled
         And the "3" button should be enabled
         And the "4" button should be enabled
@@ -236,7 +237,7 @@ Feature: Calculator
         And the "7" button should be enabled
         And the "8" button should be enabled
         And the "9" button should be enabled
-        And the "," button should be disabled
+        And the "1" button should be enabled
         And the "+" button should be enabled
         And the "-" button should be enabled
         And the "*" button should be enabled
@@ -295,16 +296,16 @@ Feature: Calculator
 
     #     Examples:
     #         | C |
-
+    @toni
     Scenario Outline: Disabling buttons
         Given the display shows the following value: "<displayNumber>"
-        Then the "0" button should be disabled
+        Then the "6" button should be disabled
         And the "1" button should be disabled
-        And the "2" button should be disabled
+        And the "0" button should be disabled
         And the "3" button should be disabled
         And the "4" button should be disabled
         And the "5" button should be disabled
-        And the "6" button should be disabled
+        And the "2" button should be disabled
         And the "7" button should be disabled
         And the "8" button should be disabled
         And the "9" button should be disabled
@@ -316,11 +317,11 @@ Feature: Calculator
             | 123456789     |
             | 12345678,     |
 
-    Scenario Outline: Disabling buttons
+    Scenario Outline: Disabling buttons 2
         Given the display shows the following value: "<displayNumber>"
-        Then the "0" button should be disabled
+        Then the "2" button should be disabled
         And the "1" button should be disabled
-        And the "2" button should be disabled
+        And the "0" button should be disabled
         And the "3" button should be disabled
         And the "4" button should be disabled
         And the "5" button should be disabled
@@ -342,9 +343,9 @@ Feature: Calculator
         And the user presses the "/" button
         And the user writes the number: "0"
         When the user presses the "=" button
-        Then the "0" button should be disabled
+        Then the "C" button should be enabled
         And the "1" button should be disabled
-        And the "2" button should be disabled
+        And the "0" button should be disabled
         And the "3" button should be disabled
         And the "4" button should be disabled
         And the "5" button should be disabled
@@ -359,7 +360,7 @@ Feature: Calculator
         And the "/" button should be disabled
         And the "+-" button should be disabled
         And the "=" button should be disabled
-        And the "C" button should be enabled
+        And the "2" button should be disabled
 
     Scenario: Reenabling buttons with error
         Given the display shows the following value: "1"
@@ -367,9 +368,9 @@ Feature: Calculator
         And the user writes the number: "0"
         And the user presses the "=" button
         When the user presses the "C" button
-        Then the "0" button should be enabled
+        Then the "2" button should be enabled
         And the "1" button should be enabled
-        And the "2" button should be enabled
+        And the "0" button should be enabled
         And the "3" button should be enabled
         And the "4" button should be enabled
         And the "5" button should be enabled
