@@ -48,11 +48,16 @@ function addDecimalSeparatorToCurrentOperand () {
 function resolveOperation () {
   if (operator) {
     const result = calculateResult(firstOperand, Number(currentOperand)) // currentOperand is used as the 2nd operand
-    currentOperand = formatResult(result) // we assign result to currentOperand to display the number
+    currentOperand = formatResult(result) // format the result
     calculatorStatus.setHasResult(true)
     operator = ''
   } else {
-    resetCalculator()
+    if (currentOperand !== '') {
+      Number(updateDisplay(currentOperand))
+      calculatorStatus.setHasResult()
+    } else {
+      resetCalculator()
+    }
   }
   updateCalculatorStatus()
 }
@@ -80,9 +85,9 @@ function calculateResult (firstOperand, secondOperand) {
     case '*':
       return firstOperand * secondOperand
     case '/':
-      return secondOperand === '0' ? 'error' : firstOperand / secondOperand
+      return secondOperand === 0 ? 'ERROR' : firstOperand / secondOperand
     default:
-      return 'error'
+      return 'ERROR'
   }
 }
 function formatResult (result) {
@@ -103,7 +108,7 @@ function resetCurrentOperandAfterOperator () {
 }
 
 function updateCalculatorStatus () {
-  updateDisplay(currentOperand === '' ? '0' : currentOperand)
+  updateDisplay(currentOperand === '' ? 0 : currentOperand)
   const [shouldDisableNumeric, shouldDisableToggle] = handleCalculatorState()
   toggleButtonsState(shouldDisableNumeric, shouldDisableToggle)
 }
@@ -116,7 +121,7 @@ function handleCalculatorState () {
   const isOperandMaxLength = currentOperand.length >= MAX_DISPLAY_DIGIT_LENGTH
   const hasResult = calculatorStatus.hasResult
   const shouldDisableNumeric = (isOperandMaxLength || hasResult) && !calculatorStatus.pendingResetCurrentOperand
-  const shouldDisableToggle = hasResult || (isOperandMaxLength && Number(currentOperand) > 0)
+  const shouldDisableToggle = hasResult || (isOperandMaxLength && Number(currentOperand) > 0) || result === 'ERROR'
   return [shouldDisableNumeric, shouldDisableToggle]
 }
 
