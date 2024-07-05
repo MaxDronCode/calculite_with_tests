@@ -3,6 +3,7 @@ class CalculatorStatus {
   constructor () {
     this._pendingResetCurrentOperand = false
     this._hasResult = false
+    this._isError = false
   }
 
   get pendingResetCurrentOperand () {
@@ -21,8 +22,17 @@ class CalculatorStatus {
     this._hasResult = value
   }
 
+  get isError () {
+    return this._isError
+  }
+
+  setIsError (value) {
+    this._isError = value
+  }
+
   reset () {
     this._pendingResetCurrentOperand = false
     this._hasResult = false
+    this._isError = false
   }
 }

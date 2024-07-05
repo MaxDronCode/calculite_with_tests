@@ -34,7 +34,6 @@ function addZeroToCurrentOperand () {
   if (currentOperand.includes('.') || currentOperand !== '') {
     currentOperand += '0'
   }
-  console.log('Curent Operand: ', currentOperand)
   updateCalculatorStatus()
 }
 
@@ -50,6 +49,9 @@ function resolveOperation () {
     const result = calculateResult(firstOperand, Number(currentOperand)) // currentOperand is used as the 2nd operand
     currentOperand = formatResult(result) // format the result
     calculatorStatus.setHasResult(true)
+    if (result === 'ERROR') {
+      calculatorStatus.setIsError(true)
+    }
     operator = ''
   } else {
     if (currentOperand !== '') {
@@ -67,6 +69,7 @@ function resetCalculator () {
   operator = ''
   calculatorStatus.reset()
   updateCalculatorStatus()
+  console.log(calculatorStatus)
 }
 
 function toggleNegative () {
@@ -85,7 +88,12 @@ function calculateResult (firstOperand, secondOperand) {
     case '*':
       return firstOperand * secondOperand
     case '/':
-      return secondOperand === 0 ? 'ERROR' : firstOperand / secondOperand
+      if (secondOperand === 0) {
+        calculatorStatus.isError = true
+        return 'ERROR'
+      } else {
+        return firstOperand / secondOperand
+      }
     default:
       return 'ERROR'
   }
@@ -120,8 +128,9 @@ function updateDisplay (value) {
 function handleCalculatorState () {
   const isOperandMaxLength = currentOperand.length >= MAX_DISPLAY_DIGIT_LENGTH
   const hasResult = calculatorStatus.hasResult
+  const isError = calculatorStatus.isError
   const shouldDisableNumeric = (isOperandMaxLength || hasResult) && !calculatorStatus.pendingResetCurrentOperand
-  const shouldDisableToggle = hasResult || (isOperandMaxLength && Number(currentOperand) > 0) || result === 'ERROR'
+  const shouldDisableToggle = hasResult || isError || (isOperandMaxLength && Number(currentOperand) > 0)
   return [shouldDisableNumeric, shouldDisableToggle]
 }
 
