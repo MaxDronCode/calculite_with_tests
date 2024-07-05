@@ -40,8 +40,12 @@ function addZeroToCurrentOperand () {
 
 function addDecimalSeparatorToCurrentOperand () {
   resetCurrentOperandAfterOperator()
-  currentOperand = currentOperand.replace('.', '')
-  currentOperand += currentOperand === '' ? '0.' : '.'
+  currentOperand = currentOperand.replaceAll('.', '')
+  if (currentOperand === '') {
+    currentOperand = '0.'
+  } else {
+    currentOperand += '.'
+  }
   updateCalculatorStatus()
 }
 
@@ -89,14 +93,13 @@ function calculateResult (firstOperand, secondOperand) {
 }
 
 function formatResult (result) {
-  let formattedResult
   if (result == 'ERROR') {
     return result
   }
-  if (String(result).length > MAX_DISPLAY_DIGIT_LENGTH) {
-    return result.toExponential(2)
-  }
-  return result
+
+  result = Number(result).toFixed(7) // Fix decimals to 7 to avoid miscalculation language problems
+  result = Number(result) // Remove trailing zeros
+  return String(result).length > MAX_DISPLAY_DIGIT_LENGTH ? result.toExponential(2) : result
 }
 
 function resetCurrentOperandAfterOperator () {
