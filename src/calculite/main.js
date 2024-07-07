@@ -117,8 +117,8 @@ function resetCurrentOperandAfterOperator () {
 
 function updateCalculatorStatus () {
   updateDisplay(currentOperand === '' ? 0 : currentOperand)
-  const [shouldDisableNumeric, shouldDisableToggle] = handleCalculatorState()
-  toggleButtonsState(shouldDisableNumeric, shouldDisableToggle)
+  const [shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual] = handleCalculatorState()
+  toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual)
 }
 
 function updateDisplay (value) {
@@ -130,13 +130,18 @@ function handleCalculatorState () {
   const hasResult = calculatorStatus.hasResult
   const isError = calculatorStatus.isError
   const shouldDisableNumeric = (isOperandMaxLength || hasResult) && !calculatorStatus.pendingResetCurrentOperand
-  const shouldDisableToggle = hasResult || isError || (isOperandMaxLength && Number(currentOperand) > 0)
-  return [shouldDisableNumeric, shouldDisableToggle]
+  const shouldDisableToggle = (hasResult && isError) || Number(currentOperand) === 0 || (currentOperand === '' && Number(firstOperand) > 0 && operator)
+  const shouldDisableEqual = hasResult && isError
+  console.log(`HANDLE numeric: ${shouldDisableNumeric} toggle: ${shouldDisableToggle} equal: ${shouldDisableEqual}`)
+  return [shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual]
 }
 
-function toggleButtonsState (disableNumeric, disableToggle) {
+function toggleButtonsState (disableNumeric, disableToggle, disableEqual) {
+  console.log(`TOGGLE numeric: ${disableNumeric} toggle: ${disableToggle} equal: ${disableEqual}`)
   toggleButtonGroupState(domNumberButtons, disableNumeric)
   toggleButtonState(domDecimalButton, disableNumeric)
   toggleButtonState(domZeroButton, disableNumeric)
   toggleButtonState(domNegativeButton, disableToggle)
+  toggleButtonGroupState(domOperatorsButtons, disableToggle)
+  toggleButtonState(domEqualButton, disableEqual)
 }
