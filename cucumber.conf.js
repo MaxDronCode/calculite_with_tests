@@ -7,13 +7,13 @@ const {
 } = require('@cucumber/cucumber')
 const { chromium } = require('playwright')
 
-setDefaultTimeout(8000)
+setDefaultTimeout(5000)
 
 // launch the browser
 BeforeAll(async () => { // lo primero de todos lanzas el navegador
   global.browser = await chromium.launch({
     headless: true, // que no se vea por pantalla
-    slowMo: 600 // milisegundos entre accion y accion
+    slowMo: 100 // milisegundos entre accion y accion
   })
 })
 

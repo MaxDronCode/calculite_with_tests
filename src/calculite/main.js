@@ -12,11 +12,13 @@ let operator = ''
 function initCalculator () {
   calculatorStatus = new CalculatorStatus()
   initCalculatorButtons()
+  updateCalculatorStatus()
   updateDisplay(0)
 }
 
 function addDigitToCurrentOperand (numberValue) {
   resetCurrentOperandAfterOperator()
+  if (currentOperand === '0') currentOperand = ''
   currentOperand += numberValue
   updateCalculatorStatus()
 }
@@ -31,7 +33,7 @@ function setOperator (operatorValue) {
 
 function addZeroToCurrentOperand () {
   resetCurrentOperandAfterOperator()
-  if (currentOperand.includes('.') || currentOperand !== '') {
+  if (currentOperand.includes('.') || currentOperand !== '0') {
     currentOperand += '0'
   }
   updateCalculatorStatus()
@@ -55,7 +57,7 @@ function resolveOperation () {
     operator = ''
   } else {
     if (currentOperand !== '') {
-      Number(updateDisplay(currentOperand))
+      updateDisplay(Number(currentOperand))
       calculatorStatus.setHasResult()
     } else {
       resetCalculator()
@@ -117,8 +119,8 @@ function resetCurrentOperandAfterOperator () {
 
 function updateCalculatorStatus () {
   updateDisplay(currentOperand === '' ? 0 : currentOperand)
-  const [shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual] = handleCalculatorState()
-  toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual)
+  const [shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual, shouldDisableNegative] = handleCalculatorState()
+  toggleButtonsState(shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual, shouldDisableNegative)
 }
 
 function updateDisplay (value) {
@@ -130,18 +132,17 @@ function handleCalculatorState () {
   const hasResult = calculatorStatus.hasResult
   const isError = calculatorStatus.isError
   const shouldDisableNumeric = (isOperandMaxLength || hasResult) && !calculatorStatus.pendingResetCurrentOperand
-  const shouldDisableToggle = (hasResult && isError) || Number(currentOperand) === 0 || (currentOperand === '' && Number(firstOperand) > 0 && operator)
+  const shouldDisableToggle = (hasResult && isError) || Number(currentOperand) === '0' || (currentOperand === '' && Number(firstOperand) > 0 && operator)
   const shouldDisableEqual = hasResult && isError
-  console.log(`HANDLE numeric: ${shouldDisableNumeric} toggle: ${shouldDisableToggle} equal: ${shouldDisableEqual}`)
-  return [shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual]
+  const shouldDisableNegative = (hasResult && isError) || isOperandMaxLength || currentOperand === ''
+  return [shouldDisableNumeric, shouldDisableToggle, shouldDisableEqual, shouldDisableNegative]
 }
 
-function toggleButtonsState (disableNumeric, disableToggle, disableEqual) {
-  console.log(`TOGGLE numeric: ${disableNumeric} toggle: ${disableToggle} equal: ${disableEqual}`)
+function toggleButtonsState (disableNumeric, disableToggle, disableEqual, disableNegative) {
   toggleButtonGroupState(domNumberButtons, disableNumeric)
   toggleButtonState(domDecimalButton, disableNumeric)
   toggleButtonState(domZeroButton, disableNumeric)
-  toggleButtonState(domNegativeButton, disableToggle)
+  toggleButtonState(domNegativeButton, disableNegative)
   toggleButtonGroupState(domOperatorsButtons, disableToggle)
   toggleButtonState(domEqualButton, disableEqual)
 }
