@@ -7,9 +7,28 @@
         "@playwright/test": "^1.45.1",
         "@types/node": "^20.14.9",
         "playwright": "^1.45.1",
-        "standard": "^17.1.0"
+        "typescript": "^5.5.4"
     },
     "scripts": {
         "test": "cucumber-js --require cucumber.conf.js --require tests/steps/**/*.steps.js --format @cucumber/pretty-formatter --format html:tests/reports/cucumber-report.html --tags \"not @Manual\" --parallel 1"
+    },
+    "standard": {
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint"
+        ],
+        "globals": [
+            "NodeJS"
+        ],
+        "env": {
+            "node": true,
+            "mocha": true
+        },
+        "extends": [
+            "standard-with-typescript"
+        ],
+        "parserOptions": {
+            "project": "./tsconfig.json"
+        }
     }
 }
